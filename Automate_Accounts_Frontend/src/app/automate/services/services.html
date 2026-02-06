@@ -1,0 +1,23 @@
+<div class="container mt-4">
+    <div class="row p-2">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6 p-4 order-1 order-md-2">
+            <div class="login-card shadow container">
+                    <div class="form-group">
+                        <label class="fw-bold">
+                            File
+                            <span class="mandatory"> *</span>
+                        </label>
+                        <input class="mx-2"type="file" (change)="upload($event)">
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-primary my-2" (click)="submitAccountValidateForm()">Submit</button>
+                        <br>
+                        <span>
+                            <button class="btn btn-secondary my-2" (click)="validateFile()">Validate File</button>
+                        </span>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
