@@ -115,6 +115,7 @@ getReceipts(): void {
     }
   });
 }
+
 getReceiptById(): void {
   if (!this.searchReceiptId) {
     this.toastr.warning('Please enter a receipt ID');

@@ -1,0 +1,9 @@
+Flask==3.0.0
+flask-cors==4.0.0
+PyPDF2==3.0.1
+sqlite3==3.45.1
+
+
+# Run the Backend Application
+# python -m flask run
+# http://127.0.0.1:5000/
