@@ -43,3 +43,16 @@ def upload_file_metadata(id, file_name, file_path, is_valid, invalid_reason, is_
 
     conn.commit()
     conn.close()
+    
+def update_receipt_data(id: str, reason:str): 
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    sql = "update receipt_file set is_valid = 0, invalid_reason = :reason where id = :id"
+    
+    cursor.execute(sql, {
+        "id": id,
+        "reason": reason
+    })
+    conn.commit()
+    conn.close()
+    

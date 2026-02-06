@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { BackendService } from '../../backend-service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-services',
@@ -15,7 +16,7 @@ export class Services {
   fileName: string;
   validate: boolean;
   fileId: string;
-  constructor(private formBuilder: FormBuilder, private backendService: BackendService){
+  constructor(private formBuilder: FormBuilder, private backendService: BackendService, private toastr: ToastrService){
     this.validate = false;
   }
 
@@ -33,7 +34,7 @@ export class Services {
 
 submitAccountValidateForm(): void {
   if (!this.file) {
-    alert('Please select a file before submitting');
+    this.toastr.warning("Please select a file before submitting")
     return;
   }
 
@@ -50,11 +51,13 @@ submitAccountValidateForm(): void {
       this.validate = true;
       this.fileId = id;
       this.fileName = this.file.name;
-      console.log('Upload successful', response);
+      this.toastr.success("Upload successful")
+      //console.log('Upload successful', response);
     },
     error: (error) => {
+      this.toastr.error("File Upload Failed")
       console.error('Upload failed', error);
-      alert('File upload failed');
+
     }
   });
 }
@@ -67,7 +70,12 @@ submitAccountValidateForm(): void {
       "file_name": this.fileName
     }
     this.backendService.validateFile(request).subscribe((response)=> {
-      console.log(response)
+      if(response.is_valid){
+        this.toastr.success("Successful", "Validation")
+      }
+      else {
+        this.toastr.error("not a valid PDF", "File is")
+      }
     })
   }
 

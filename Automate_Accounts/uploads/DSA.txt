@@ -1,0 +1,135 @@
+
+
+# 🔵 **1. Array & String (Most Common Category)**
+
+### ⭐ Must Solve
+
+1. **Two Sum Problem**
+2. **Find Missing Number in Array**
+3. **Find Duplicate in Array**
+4. **Move All Zeros to End**
+5. **Kadane’s Algorithm (Maximum Subarray Sum)**
+6. **Merge Two Sorted Arrays**
+7. **Rotate Array (Left or Right)**
+8. **Product of Array Except Self**
+9. **Longest Common Prefix**
+10. **Longest Substring Without Repeating Characters (Sliding Window)**
+
+### Why it is asked:
+
+Data pipelines often process large arrays/batches → they want optimization mindset.
+
+---
+
+# 🔵 **2. HashMap / Dictionary Based Questions**
+
+1. **Count Frequency of Elements**
+2. **First Non-Repeating Character**
+3. **Group Anagrams**
+from collections import defaultdict
+
+def groupAnagrams(words):
+    anagrams = defaultdict(list)
+    
+    for word in words:
+        # Step 1: Sort the word and use it as a key
+        key = ''.join(sorted(word))
+        
+        # Step 2: Append the original word to the list of its key
+        anagrams[key].append(word)
+    
+    # Step 3: Return the grouped anagrams
+    return list(anagrams.values())
+
+words = ["eat", "tea", "tan", "ate", "nat", "bat"]
+print(groupAnagrams(words))
+
+4. **Top K Frequent Elements**
+5. **Find Pair With Given Sum Using Hashing**
+
+### Why it is asked:
+
+Hash maps are heavily used in ETL, aggregations, deduplication logic, joins.
+
+---
+
+# 🔵 **3. Linked List Basics**
+
+(Data Engineer roles don’t go deep)
+
+1. **Reverse Linked List**
+2. **Detect Cycle in Linked List** (Floyd’s algorithm)
+3. **Merge Two Sorted Linked Lists**
+
+---
+
+# 🔵 **4. Tree / Binary Tree Questions**
+
+(Asked occasionally)
+
+1. **Level Order Traversal (BFS)**
+2. **Height of Binary Tree**
+3. **Inorder/Preorder/Postorder Traversal**
+4. **Check if Tree is Balanced**
+
+### Why:
+
+To test recursion, BFS, DFS thinking.
+
+---
+
+# 🔵 **5. Sliding Window Questions**
+
+Very common now.
+
+1. **Longest Subarray with Sum K**
+2. **Max Sum Subarray of Size K**
+3. **Longest substring with K distinct characters**
+
+### Why:
+
+Similar to processing “windowed aggregations” in streaming pipelines (e.g., Spark).
+
+---
+
+# 🔵 **6. Stack / Queue**
+
+Small easy questions:
+
+1. **Valid Parentheses**
+2. **Next Greater Element**
+3. **Min Stack**
+4. **Queue using Two Stacks**
+
+---
+
+# 🔵 **7. Matrix / 2D Array**
+
+Important for Data Engineers (CSV/Tabular processing)
+
+1. **Search in 2D Sorted Matrix**
+2. **Rotate Matrix (90 degrees)**
+3. **Spiral Order Traversal**
+
+---
+
+# 🔵 **8. SQL-style Logic but in Code**
+
+These are *super popular* in Data Engineer rounds:
+
+1. **Find the majority element** (like GROUP BY + LIMIT)
+2. **Merge intervals**
+3. **Find missing ranges**
+4. **Remove duplicates from sorted array**
+5. **Find median of two sorted arrays (simplified version)**
+
+---
+
+# 🔵 **9. Frequency + Sorting Problems**
+
+Used to test analytical/ETL mindset.
+
+1. **Sort Characters By Frequency**
+2. **Sort Array of 0s, 1s, 2s (Dutch National Flag)**
+
+---
