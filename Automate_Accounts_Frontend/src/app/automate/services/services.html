@@ -1,23 +1,128 @@
 <div class="container mt-4">
-    <div class="row p-2">
-        <div class="col-sm-3"></div>
-        <div class="col-sm-6 p-4 order-1 order-md-2">
-            <div class="login-card shadow container">
-                    <div class="form-group">
-                        <label class="fw-bold">
-                            File
-                            <span class="mandatory"> *</span>
-                        </label>
-                        <input class="mx-2"type="file" (change)="upload($event)">
-                    </div>
-                    <div class="text-center">
-                        <button class="btn btn-primary my-2" (click)="submitAccountValidateForm()">Submit</button>
-                        <br>
-                        <span>
-                            <button class="btn btn-secondary my-2" (click)="validateFile()">Validate File</button>
-                        </span>
-                    </div>
-            </div>
+  <div class="row p-2">
+    <div class="col-sm-3"></div>
+
+    <div class="col-sm-6 p-4 order-1 order-md-2">
+      <div class="login-card shadow container">
+
+        <!-- File Upload -->
+        <div class="form-group">
+          <label class="fw-bold">
+            File
+            <span class="mandatory">*</span>
+          </label>
+          <input
+            class="mx-2"
+            type="file"
+            (change)="upload($event)"
+          />
         </div>
+
+        <div class="text-center">
+
+          <!-- Submit -->
+          <button
+            class="btn btn-primary my-2"
+            (click)="submitAccountValidateForm()">
+            Submit
+          </button>
+
+          <br />
+
+          <!-- Validate -->
+          <div>
+            <button
+              class="btn btn-secondary my-2"
+              (click)="validateFile()">
+              Validate File
+            </button>
+          </div>
+
+          <br />
+
+          <!-- Process -->
+          <div>
+            <button
+              class="btn btn-primary my-2"
+              (click)="processFile()">
+              Process File
+            </button>
+          </div>
+
+          <!-- View Receipts -->
+          <button
+            class="btn btn-info my-2"
+            (click)="getReceipts()">
+            View Receipts
+          </button>
+
+          <!-- Receipts Table -->
+          <div *ngIf="receipts?.length > 0" class="mt-3">
+            <h5 class="text-center">Receipts</h5>
+
+            <table class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Merchant</th>
+                  <th>Total Amount</th>
+                  <th>Purchased At</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let r of receipts">
+                  <td>{{ r.id }}</td>
+                  <td>{{ r.merchant_name }}</td>
+                  <td>{{ r.total_amount }}</td>
+                  <td>{{ r.purchased_at }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Get Receipt By ID -->
+<div class="mt-3">
+  <label class="fw-bold">Receipt ID</label>
+  <input
+    type="text"
+    class="form-control"
+    [(ngModel)]="searchReceiptId"
+    placeholder="Paste receipt ID here"
+  />
+
+  <button
+    class="btn btn-success my-2"
+    (click)="getReceiptById()">
+    Get Receipt
+  </button>
+</div>
+
+<!-- Single Receipt Display -->
+<div *ngIf="selectedReceipt" class="mt-3">
+  <h5 class="text-center">Receipt Details</h5>
+
+  <table class="table table-bordered">
+    <tr>
+      <th>ID</th>
+      <td>{{ selectedReceipt.id }}</td>
+    </tr>
+    <tr>
+      <th>Merchant</th>
+      <td>{{ selectedReceipt.merchant_name }}</td>
+    </tr>
+    <tr>
+      <th>Total Amount</th>
+      <td>{{ selectedReceipt.total_amount }}</td>
+    </tr>
+    <tr>
+      <th>Purchased At</th>
+      <td>{{ selectedReceipt.purchased_at }}</td>
+    </tr>
+  </table>
+</div>
+
+        </div>
+      </div>
     </div>
+  </div>
 </div>

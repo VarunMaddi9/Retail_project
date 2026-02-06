@@ -80,14 +80,14 @@ def process():
     data = request.get_json()
 
     if not data or "id" not in data:
-        return jsonify({"error": "id missing"}), 400
+        return jsonify({"message": "id missing"}), 400
 
     result = process_receipt(data["id"])
 
     if "error" in result:
-        return jsonify(result), 400
+        return jsonify({"message": "Error in processing"}), 400
 
-    return jsonify(result), 200
+    return jsonify({"message": "Success"}), 200
 
 @app.route("/receipts", methods=["GET"])
 def receipts():
@@ -106,23 +106,27 @@ def receipts():
         return jsonify({"error": str(e)}), 500
 
 
-@app.route("/receipts/<int:id>", methods=["GET"])
+@app.route("/receipts/<id>", methods=["GET"])
 def receipts_by_id(id):
     try:
         with sqlite3.connect("automate.db") as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM receipt WHERE id = ?", (id,))
+
+            cursor.execute(
+                "SELECT * FROM receipt WHERE id = ?",
+                (id,)
+            )
             row = cursor.fetchone()
 
         if row is None:
             return jsonify({"error": "Receipt not found"}), 404
 
-        receipt = dict(row)
-        return jsonify(receipt), 200
+        return jsonify(dict(row)), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 
 if __name__ == "__main__":

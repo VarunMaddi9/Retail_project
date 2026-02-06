@@ -20,15 +20,17 @@ export class BackendService {
     return this.httpClient.post(`${this.baseUrl}/validate`, request);
   }
 
-  process(): Observable<any> {
-    return this.httpClient.get<any>(`${this.baseUrl}`);
+  process(request: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/process`, request);
   }
 
-  getReceipts(): Observable<any> {
-    return this.httpClient.get<any>(`${this.baseUrl}`);
-  }
+getReceipts(): Observable<any[]> {
+  return this.httpClient.get<any[]>(`${this.baseUrl}/receipts`);
+}
 
-  getReceiptById(): Observable<any> {
-    return this.httpClient.get<any>(`${this.baseUrl}`);
-  }
+
+getReceiptById(id: string): Observable<any> {
+  return this.httpClient.get<any>(`${this.baseUrl}/receipts/${id}`);
+}
+
 }

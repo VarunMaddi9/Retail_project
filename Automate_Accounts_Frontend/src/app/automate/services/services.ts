@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { BackendService } from '../../backend-service';
 import { ToastrService } from 'ngx-toastr';
+import { ChangeDetectorRef } from '@angular/core';
+
+
 
 @Component({
   selector: 'app-services',
@@ -14,10 +17,12 @@ export class Services {
   automateAccountForm: FormGroup;
   file: File;
   fileName: string;
-  validate: boolean;
+  validate: boolean = false;
   fileId: string;
-  constructor(private formBuilder: FormBuilder, private backendService: BackendService, private toastr: ToastrService){
-    this.validate = false;
+  receipts: any[] = [];
+  searchReceiptId: string = '';
+  selectedReceipt: any = null;
+  constructor(private formBuilder: FormBuilder, private backendService: BackendService, private toastr: ToastrService, private cdr: ChangeDetectorRef){
   }
 
   ngOnInit(): void {
@@ -79,7 +84,66 @@ submitAccountValidateForm(): void {
     })
   }
 
-  resetForm(): void{
-    this.automateAccountForm.reset();
+  processFile(): void {
+    const request = {
+      "id": this.fileId
+    }
+
+    this.backendService.process(request).subscribe((response)=> {
+      if(response.message){
+        this.toastr.success("Successful", "File Processing")
+      }
+      else {
+        this.toastr.error("Failed", "File Processing")
+      }
+    })
   }
+
+getReceipts(): void {
+  this.backendService.getReceipts().subscribe({
+    next: (response) => {
+      console.log('RAW RESPONSE:', response);
+
+      this.receipts = response;
+      this.cdr.detectChanges(); // 👈 THIS LINE FIXES NG0100
+
+      this.toastr.success('Receipts loaded');
+    },
+    error: (error) => {
+      console.error(error);
+      this.toastr.error('Failed to load receipts');
+    }
+  });
+}
+getReceiptById(): void {
+  if (!this.searchReceiptId) {
+    this.toastr.warning('Please enter a receipt ID');
+    return;
+  }
+
+  // reset first (important)
+  this.selectedReceipt = null;
+
+this.backendService
+  .getReceiptById(this.searchReceiptId)
+  .subscribe({
+    next: (response) => {
+      setTimeout(() => {
+        this.selectedReceipt = response;
+      });
+      this.toastr.success('Receipt loaded');
+    },
+    error: () => {
+      this.selectedReceipt = null;
+      this.toastr.error('Receipt not found');
+    }
+  });
+
+  
+}
+
+
+
+
+
 }
