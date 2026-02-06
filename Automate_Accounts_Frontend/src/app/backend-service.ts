@@ -11,9 +11,10 @@ export class BackendService {
 
   constructor(private httpClient: HttpClient){}
 
-  uploadFile(request: any): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/upload`, request);
-  }
+ uploadFile(formData: FormData): Observable<any> {
+  return this.httpClient.post(`${this.baseUrl}/upload`, formData);
+}
+
 
   validateFile(request: any): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/validate`, request);

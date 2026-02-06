@@ -5,6 +5,8 @@ import { AppRoutingModule } from './app-routing-module';
 import { App } from './navigation-components/app/app';
 import { Navigation } from './navigation-components/navigation/navigation';
 import { AutomateModule } from './automate/automate-module';
+import { ToastrModule } from 'ngx-toastr';
+
 
 @NgModule({
   declarations: [
@@ -14,7 +16,8 @@ import { AutomateModule } from './automate/automate-module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AutomateModule
+    AutomateModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),

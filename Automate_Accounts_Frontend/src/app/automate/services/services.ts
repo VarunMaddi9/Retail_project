@@ -31,28 +31,43 @@ export class Services {
     this.file = input.files[0];
   }
 
-  submitAccountValidateForm(): void {
-    const id = Date.now() + '-' + Math.floor(Math.random() * 100000);
-    const file_name = this.file.name;
-    const request = {
-      "id": id,
-      "file_name": file_name,
-    }
-    this.backendService.uploadFile(request).subscribe((response)=>{
+submitAccountValidateForm(): void {
+  if (!this.file) {
+    alert('Please select a file before submitting');
+    return;
+  }
+
+  const id = Date.now() + '-' + Math.floor(Math.random() * 100000);
+  
+  // Create FormData instead of JSON
+  const formData = new FormData();
+  formData.append('id', id);                   // metadata
+  formData.append('file', this.file, this.file.name); // actual file
+
+  // Send FormData
+  this.backendService.uploadFile(formData).subscribe({
+    next: (response) => {
       this.validate = true;
       this.fileId = id;
-      this.fileName = file_name;
-    })
-  }
+      this.fileName = this.file.name;
+      console.log('Upload successful', response);
+    },
+    error: (error) => {
+      console.error('Upload failed', error);
+      alert('File upload failed');
+    }
+  });
+}
+
+
 
   validateFile(): void {
     const request = {
       "id": this.fileId,
       "file_name": this.fileName
     }
-    console.log(request)
     this.backendService.validateFile(request).subscribe((response)=> {
-
+      console.log(response)
     })
   }
 
